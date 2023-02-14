@@ -100,11 +100,12 @@ def vacancy_edit(vacancy_id):
     return render_template('vacancies/edit.html', context=context, vacancy=vacancy)
 
 
-@app.route('/vacancies/<vacancy_id>/delete', methods=['GET'])
+@app.route('/vacancies/<vacancy_id>/delete', methods=['GET', 'POST'])
 def vacancy_delete(vacancy_id):
-    database.init_db()
-    database.db_session.query(Vacancy).filter_by(id=vacancy_id).delete()
-    database.db_session.commit()
+    if request.method == 'POST':
+        database.init_db()
+        database.db_session.query(Vacancy).filter_by(id=vacancy_id).delete()
+        database.db_session.commit()
 
     return redirect(url_for('vacancies'))
 
@@ -185,11 +186,12 @@ def vacancy_event_edit(event_id):
     return render_template('events/edit.html', context=context, event=event)
 
 
-@app.route('/events/<event_id>/delete', methods=['GET'])
+@app.route('/events/<event_id>/delete', methods=['GET', 'POST'])
 def vacancy_event_delete(event_id):
-    database.init_db()
-    database.db_session.query(Event).filter_by(id=event_id).delete()
-    database.db_session.commit()
+    if request.method == 'POST':
+        database.init_db()
+        database.db_session.query(Event).filter_by(id=event_id).delete()
+        database.db_session.commit()
 
     return redirect(url_for('vacancies'))
 
@@ -278,11 +280,12 @@ def user_document_edit(document_id):
     return render_template('documents/edit.html', context=context, document=document)
 
 
-@app.route('/user/documents/<document_id>/delete', methods=['GET'])
+@app.route('/user/documents/<document_id>/delete', methods=['GET', 'POST'])
 def user_document_delete(document_id):
-    database.init_db()
-    database.db_session.query(Document).filter_by(id=document_id).delete()
-    database.db_session.commit()
+    if request.method == 'POST':
+        database.init_db()
+        database.db_session.query(Document).filter_by(id=document_id).delete()
+        database.db_session.commit()
 
     return redirect(url_for('user_documents'))
 
@@ -358,11 +361,12 @@ def user_template_edit(template_id):
     return render_template('templates/edit.html', context=context, template=template)
 
 
-@app.route('/user/templates/<template_id>/delete', methods=['GET'])
+@app.route('/user/templates/<template_id>/delete', methods=['GET', 'POST'])
 def user_template_delete(template_id):
-    database.init_db()
-    database.db_session.query(Template).filter_by(id=template_id).delete()
-    database.db_session.commit()
+    if request.method == 'POST':
+        database.init_db()
+        database.db_session.query(Template).filter_by(id=template_id).delete()
+        database.db_session.commit()
 
     return redirect(url_for('user_templates'))
 
@@ -444,11 +448,12 @@ def user_email_edit(email_id):
     return render_template('emails/edit.html', context=context, email=email)
 
 
-@app.route('/user/emails/<email_id>/delete', methods=['GET'])
+@app.route('/user/emails/<email_id>/delete', methods=['GET', 'POST'])
 def user_email_delete(email_id):
-    database.init_db()
-    database.db_session.query(EmailCred).filter_by(id=email_id).delete()
-    database.db_session.commit()
+    if request.method == 'POST':
+        database.init_db()
+        database.db_session.query(EmailCred).filter_by(id=email_id).delete()
+        database.db_session.commit()
 
     return redirect(url_for('user_emails'))
 

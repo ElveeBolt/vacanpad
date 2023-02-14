@@ -110,7 +110,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
-          <a href="{{ url_for('vacancy_delete', vacancy_id=vacancy['id']) }}" class="btn btn-primary">Подтвердить</a>
+          <form action="{{ url_for('vacancy_delete', vacancy_id=vacancy['id']) }}" method="POST">
+              <button type="submit" class="btn btn-primary">Подтвердить</button>
+          </form>
       </div>
     </div>
   </div>
