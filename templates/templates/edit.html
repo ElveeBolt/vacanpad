@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Редактировать шаблон</div>
+                    <div class="subtitle">Для того чтобы внести изменения в шаблон заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название шаблона:</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Введите название..." value="{% if template['title'] %}{{ template['title'] }}{% endif %}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Тело шаблона:</label>
+                        <textarea type="text" class="form-control" id="content" name="content" rows="4" placeholder="Введите содержание шаблона...">{% if template['content'] %}{{ template['content'] }}{% endif %}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

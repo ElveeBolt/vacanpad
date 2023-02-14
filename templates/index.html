@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="card card-widget">
+                <div class="icon"><i class="bi bi-briefcase"></i></div>
+                <div class="count">{{ statistic['vacancies'] }}</div>
+                <div class="title text-muted">Всего вакансий</div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card card-widget">
+                <div class="icon"><i class="bi bi-calendar-event"></i></div>
+                <div class="count">{{ statistic['events'] }}</div>
+                <div class="title text-muted">Всего событий</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

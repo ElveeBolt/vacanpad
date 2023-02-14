@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Добавить событие</div>
+                    <div class="subtitle">Дя того чтобы добавить событие заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Название:</label>
+                                <input type="text" class="form-control" id="title" name="title">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Статус:</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="0">Не выполнено</option>
+                                    <option value="1">Выполнено</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание:</label>
+                        <textarea type="text" class="form-control" id="description" name="description" rows="4"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="due_to_date" class="form-label">Дата события:</label>
+                                <input type="datetime-local" class="form-control" id="due_to_date" name="due_to_date" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Добавить событие</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

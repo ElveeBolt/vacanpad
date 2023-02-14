@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Список событий</div>
+                    <div class="subtitle">Список ранее добавленых событий для вакансии</div>
+                </div>
+                <table id="table-events" class="display mb-3">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Дата события</th>
+                            <th>Статус</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>
+                                <div class="title">{{ event['title'] }}</div>
+                                <div class="description">{{ event['description'] }}</div>
+                            </td>
+                            <td style="white-space: nowrap">{{ event['due_to_date'] }}</td>
+                            <td>
+                                {% if event['status'] == 0 %}
+                                <div class="status status-fail">Не выполнено</div>
+                                {% else %}
+                                <div class="status status-done">Выполнено</div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('vacancy_event_edit', event_id=event['id']) }}" class="btn"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ url_for('vacancy_event', event_id=event['id']) }}" class="btn"><i class="bi bi-file-earmark-text"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Добавить событие</div>
+                    <div class="subtitle">Форма добавления события</div>
+                </div>
+                <p>Добавьте новое событие для того, чтобы в дальнейшем просматривать историю.</p>
+                <div class="div">
+                    <a href="{{ url_for('vacancy_event_add', vacancy_id=vacancy['id']) }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Добавить событие</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">{{ vacancy['title'] }}</div>
+                    <div class="subtitle">Информация о вакансии</div>
+                </div>
+                <p>{{ vacancy['description'] }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  $(document).ready( function () {
+    $('#table-events').DataTable({
+        searching: false,
+        paging: false,
+        info: false
+    });
+});
+</script>
+{% endblock %}

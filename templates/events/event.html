@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+        <div class="btns-box">
+            <a href="{{ url_for('vacancy_event_edit', event_id=event['id']) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Редактировать</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-delete"><i class="bi bi-trash"></i>Удалить</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">{{ event['title'] }}</div>
+                    <div class="subtitle">Основная информация о событии</div>
+                    {% if event['status'] == 0 %}
+                    <div class="status">Не выполнено</div>
+                    {% else %}
+                    <div class="status status-done">Выполнено</div>
+                    {% endif %}
+                </div>
+                <p>{{ event['description'] }}</p>
+            </div>
+
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Дополнительная информация</div>
+                    <div class="subtitle">Дополнительная информация касательно вакансии</div>
+                </div>
+                <ul class="list-unstyled list-group-custom mb-0">
+                    <li><span class="left">Дата события:</span><span class="right">{{ event['due_to_date'] }}</span></li>
+                    <li><span class="left">Дата публикации:</span><span class="right">{{ event['date_publish'] }}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-4">
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal-delete" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Удаление события</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Данная операция приведёт к удалению события. Пожалуйста, подтвердите это действие</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+          <a href="{{ url_for('vacancy_event_delete', event_id=event['id']) }}" class="btn btn-primary">Подтвердить</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

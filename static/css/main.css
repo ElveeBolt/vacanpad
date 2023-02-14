@@ -1,0 +1,301 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+
+body{
+    background: #e7ecf8;
+    color: #181C32;
+    padding-top: 80px;
+    font-size: 14px;
+}
+
+em {
+    background: #e7ecf8;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.btn {
+    background: #e7ecf8;
+    color: #7E8299;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+}
+
+.btn:hover{
+    background: #F4F4F4;
+}
+
+.btn-primary{
+    background: #2269f5;
+    color: #fff;
+}
+
+.btn-primary:hover{
+    background: #3e7dfa;
+    color: #fff;
+}
+
+.btn i{
+    margin-right: 5px;
+}
+
+.form-label {
+    font-size: 14px;
+}
+
+.navbar {
+    background: #fff;
+    margin-bottom: 30px;
+    box-shadow: 0 0 11px 1px rgb(0 0 0 / 5%);
+    -webkit-box-shadow: 0 0 11px 1px rgb(0 0 0 / 5%);
+}
+
+.navbar .nav-link {
+    display: flex;
+    align-items: center;
+}
+.navbar .nav-link i{
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+    color: #2269f5;
+}
+
+.navbar-brand {
+    font-weight: 500;
+    color: #2269f5;
+}
+
+.card{
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    border: none;
+    margin-bottom: 30px;
+    box-shadow: 0 0 11px 1px rgb(0 0 0 / 5%);
+    -webkit-box-shadow: 0 0 11px 1px rgb(0 0 0 / 5%);
+}
+
+.card-heading {
+    border-bottom: 1px dashed#E1E3EA;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.card-heading .title{
+    font-size: 18px;
+}
+
+.card-heading .subtitle {
+    color: #A1A5B7;
+    font-size: 14px;
+}
+
+.card-heading .status{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.card .date_publish{
+    color: #A1A5B7;
+}
+
+.card-vacancies .title {
+    position: relative;
+    border-bottom: 1px dashed#E1E3EA;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.card-vacancies .title h2{
+    font-size: 22px;
+    margin: 0;
+}
+
+.card-vacancies .title h2 a{
+    text-decoration: none;
+    color: #181C32;
+}
+
+.card-vacancies .title h2 a:hover{
+    color: #2269f5;
+}
+
+.card-vacancies .status{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.card-widget {
+    min-height: 100px;
+    padding-left: 100px;
+}
+
+.card-widget .icon {
+font-size: 26px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #e7ecf8;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #2269f5;
+}
+
+.card-widget .count{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.comment {
+    border-top: 1px dashed#E1E3EA;
+    padding-top: 15px;
+}
+
+.header {
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.header h1{
+    font-size: 30px;
+    margin: 0 0 5px;
+}
+
+.header .subtitle {
+    color: #A1A5B7;
+}
+
+.header .btns-box {
+    position: absolute;
+    top: 15px;
+    right: 0;
+}
+
+.list-group-custom li {
+    display: flex;
+    padding: 5px 0;
+}
+
+.list-group-custom .left{
+    width: 200px;
+    color: #A1A5B7;
+}
+
+.status {
+    padding: 3px 10px;
+    background: #e7ecf8;
+    border-radius: 30px;
+    font-size: 12px;
+    color: #A1A5B7;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.status.status-done{
+    background: #d6f5e3;
+    color: #4bad48;
+}
+
+.status.status-fail{
+background: #fce3e5;
+    color: #ff4857;
+}
+
+.status.status-work{
+    background: #dff0fe;
+    color: #2269f5;
+}
+
+table.dataTable {
+    font-size: 14px;
+}
+
+table.dataTable.stripe>tbody>tr.odd>*,
+table.dataTable.display>tbody>tr.odd>* {
+    box-shadow: none;
+    background: #f4f7fa;
+    border: none;
+}
+
+table.dataTable.row-border tbody th,
+table.dataTable.row-border tbody td,
+table.dataTable.display tbody th,
+table.dataTable.display tbody td {
+    border: none;
+}
+
+table.dataTable thead th,
+table.dataTable thead td {
+    padding: 10px;
+    border-bottom: 1px solid #E1E3EA;
+    color: #A1A5B7;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding: 10px 10px;
+}
+
+table.dataTable.hover>tbody>tr:hover>*,
+table.dataTable.display>tbody>tr:hover>*,
+table.dataTable.display>tbody>tr.even>.sorting_1,
+table.dataTable.order-column.stripe>tbody>tr.even>.sorting_1,
+table.dataTable.display>tbody>tr.odd>.sorting_1,
+table.dataTable.order-column.stripe>tbody>tr.odd>.sorting_1,
+table.dataTable.order-column>tbody tr>.sorting_1,
+table.dataTable.order-column>tbody tr>.sorting_2,
+table.dataTable.order-column>tbody tr>.sorting_3,
+table.dataTable.display>tbody tr>.sorting_1,
+table.dataTable.display>tbody tr>.sorting_2,
+table.dataTable.display>tbody tr>.sorting_3{
+    box-shadow:none
+}
+
+table.dataTable.no-footer {
+    border: none;
+}
+
+table.dataTable .btn{
+    background: #e7ecf8;
+    color: #181C32;
+    padding: 8px 10px;
+}
+
+table.dataTable .btn:hover{
+    background: #3e7dfa;
+    color: #fff;
+}
+
+table.dataTable .btn i {
+    margin-right: 0px;
+}
+
+
+#table-events .title{
+    font-weight: 500;
+    margin-bottom: 0px;
+    display: block;
+}
+
+#table-events .description{
+    color: #A1A5B7;
+}
+
+footer{
+    background: #fff;
+    padding: 30px 0;
+}

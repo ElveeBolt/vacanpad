@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Редактировать событие</div>
+                    <div class="subtitle">Дя того чтобы редактировать событие заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Название:</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{% if event['title'] %}{{ event['title'] }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Статус:</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="0" {% if event['status'] == 0 %} selected {% endif %}>Не выполнено</option>
+                                    <option value="1" {% if event['status'] == 1 %} selected {% endif %}>Выполнено</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание:</label>
+                        <textarea type="text" class="form-control" id="description" name="description" rows="4">{% if event['description'] %}{{ event['description'] }}{% endif %}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="due_to_date" class="form-label">Дата события:</label>
+                        <input type="datetime-local" class="form-control" id="due_to_date" name="due_to_date" value="{% if event['due_to_date'] %}{{ event['due_to_date'] }}{% endif %}">
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

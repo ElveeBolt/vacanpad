@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body class="d-flex flex-column h-100">
+{% include "navbar.html" %}
+
+{% block content %} {% endblock %}
+
+{% include "footer.html" %}
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+{% block scripts %} {% endblock %}
+</body>
+</html>

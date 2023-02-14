@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            {% for vacancy in vacancies %}
+            <div class="card card-vacancies">
+                <div class="title">
+                    <h2><a href="{{ url_for('vacancy', vacancy_id=vacancy['id']) }}">{{ vacancy['title'] }}</a></h2>
+                    {% if vacancy['status'] == 0 %}
+                    <div class="status">Не определён</div>
+                    {% elif vacancy['status'] == 1 %}
+                    <div class="status status-work">В работе</div>
+                    {% elif vacancy['status'] == 2 %}
+                    <div class="status status-fail">Получен отказ</div>
+                    {% else %}
+                    <div class="status status-done">Принято</div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">{{ vacancy['description'] }}</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{{ url_for('vacancy', vacancy_id=vacancy['id']) }}" class="btn btn-primary"><i class="bi bi-file-earmark-text"></i>Смотреть детали</a>
+                        <a href="{{ url_for('vacancy_events', vacancy_id=vacancy['id']) }}" class="btn" style="margin-left: 15px"><i class="bi bi-calendar-event"></i>Смотреть события</a>
+                    </div>
+                    <div class="date_publish">Дата публикации: 17.02.2023</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Фильтр</div>
+                    <div class="subtitle">Фильтрация вакансий</div>
+                </div>
+                <p>Здесь будет тело фильтра</p>
+                <div class="div">
+                    <a href="#" class="btn">Применить фильтр</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Добавить вакансию</div>
+                    <div class="subtitle">Форма добавления вакансии</div>
+                </div>
+                <p>Добавьте новую вакансию для того, чтобы в дальнейшем отслеживать её статус и историю изменений.</p>
+                <div class="div">
+                    <a href="{{ url_for('vacancy_add') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Добавить вакансию</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

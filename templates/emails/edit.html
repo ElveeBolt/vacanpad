@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Редактировать e-mail</div>
+                    <div class="subtitle">Дя того чтобы внести изменения в e-mail заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail:</label>
+                        <input type="email" class="form-control" id="email" name="email" required="required" placeholder="Введите e-mail..." value="{% if email['email'] %}{{ email['email'] }}{% endif %}">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="login" class="form-label">Логин:</label>
+                                <input type="text" class="form-control" id="login" name="login" required="required" placeholder="Введите логин..." value="{% if email['login'] %}{{ email['login'] }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Пароль:</label>
+                                <input type="password" class="form-control" id="password" name="password" required="required" placeholder="Введите пароль..." value="{% if email['password'] %}{{ email['password'] }}{% endif %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="pop_server" class="form-label">POP:</label>
+                                <input type="number" class="form-control" id="pop_server" name="pop_server" required="required" placeholder="Введите POP..." value="{% if email['pop_server'] %}{{ email['pop_server'] }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="smtp_server" class="form-label">SMTP:</label>
+                                <input type="number" class="form-control" id="smtp_server" name="smtp_server" required="required" placeholder="Введите SMTP..." value="{% if email['smtp_server'] %}{{ email['smtp_server'] }}{% endif %}">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Помощь</div>
+                    <div class="subtitle">Дополнительная информация</div>
+                </div>
+                <div class="mb-3">Протоколы электронной почты - это наборы правил, предназначенных для организации обмена
+                    информацией между почтовыми клиентами и почтовыми серверами.</div>
+                <p><em>SMTP</em> - это стандартный почтовый протокол, предназначенный для
+                    исключительно обмена электронной почтой.</p>
+                <p class="mb-0"><em>POP3</em> - почтовый протокол, который позволяет принимать и хранить вашу электронную почту.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+        <div class="btns-box">
+            <a href="{{ url_for('user_template_edit', template_id=template['id']) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Редактировать</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-delete"><i class="bi bi-trash"></i>Удалить</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">{{ template['title'] }}</div>
+                    <div class="subtitle">Основная информация о шаблоне письма</div>
+                </div>
+                <div>{{ template['content'] }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal-delete" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Удаление шаблона письма</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Данная операция приведёт к удалению шаблона письма. Пожалуйста, подтвердите это действие</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+          <a href="{{ url_for('user_template_delete', template_id=template['id']) }}" class="btn btn-primary">Подтвердить</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

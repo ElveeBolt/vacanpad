@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+        <div class="btns-box">
+            <a href="{{ url_for('vacancy_edit', vacancy_id=vacancy['id']) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Редактировать</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-delete"><i class="bi bi-trash"></i>Удалить</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">{{ vacancy['title'] }}</div>
+                    <div class="subtitle">Основная информация о вакансии</div>
+                    {% if vacancy['status'] == 0 %}
+                    <div class="status">Не определён</div>
+                    {% elif vacancy['status'] == 1 %}
+                    <div class="status status-work">В работе</div>
+                    {% elif vacancy['status'] == 2 %}
+                    <div class="status status-fail">Получен отказ</div>
+                    {% else %}
+                    <div class="status status-done">Принято</div>
+                    {% endif %}
+                </div>
+                <div>{{ vacancy['description'] }}</div>
+                {% if vacancy['comment'] %}
+                <div class="comment mt-3">{{ vacancy['comment'] }}</div>
+                {% endif %}
+            </div>
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">События</div>
+                    <div class="subtitle">Информация о 5 последних событиях</div>
+                </div>
+                <table id="table-events" class="display mb-3">
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>
+                                <div class="title">{{ event['title'] }}</div>
+                                <div class="description">{{ event['description'] }}</div>
+                            </td>
+                            <td style="white-space: nowrap">{{ event['due_to_date'] }}</td>
+                            <td>
+                                {% if event['status'] == 0 %}
+                                <div class="status status-fail">Не выполнено</div>
+                                {% else %}
+                                <div class="status status-done">Выполнено</div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('vacancy_event_edit', event_id=event['id']) }}" class="btn"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{ url_for('vacancy_event', event_id=event['id']) }}" class="btn"><i class="bi bi-file-earmark-text"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('vacancy_events', vacancy_id=vacancy['id']) }}" class="btn btn-primary"><i class="bi bi-file-earmark-text"></i>Смотреть все</a>
+                    <a href="{{ url_for('vacancy_event_add', vacancy_id=vacancy['id']) }}" class="btn"><i class="bi bi-plus-circle"></i>Добавить событие</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Контактная информация</div>
+                    <div class="subtitle">Контакты компании</div>
+                </div>
+                <ul class="list-unstyled list-group-custom mb-0">
+                    <li><span class="left">Название компании:</span><span class="right">{{ vacancy['company'] }}</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Дополнительная информация</div>
+                    <div class="subtitle">Дополнительная информация касательно вакансии</div>
+                </div>
+                <ul class="list-unstyled list-group-custom mb-0">
+                    <li><span class="left">Позиция:</span><span class="right">{{ vacancy['position'] }}</span></li>
+                    <li><span class="left">Ссылка на вакансию:</span><span class="right"><a href="{{ vacancy['url'] }}" target="_blank">Смотреть источник</a></span></li>
+                    <li><span class="left">Дата публикации:</span><span class="right">{{ vacancy['date_publish'] }}</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal-delete" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Удаление вакансии</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Данная операция приведёт к удалению вакансии. Пожалуйста, подтвердите это действие</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+          <a href="{{ url_for('vacancy_delete', vacancy_id=vacancy['id']) }}" class="btn btn-primary">Подтвердить</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready( function () {
+    $('#table-events').DataTable({
+        searching: false,
+        paging: false,
+        info: false
+    });
+});
+</script>
+{% endblock %}

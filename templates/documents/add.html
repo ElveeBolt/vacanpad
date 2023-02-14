@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Добавить документ</div>
+                    <div class="subtitle">Дя того чтобы добавить документ заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название документа:</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Введите название...">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание:</label>
+                        <textarea type="text" class="form-control" id="description" name="description" rows="4" placeholder="Введите описание..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Документ:</label>
+                        <input type="text" class="form-control" id="content" name="content" placeholder="Введите документ...">
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Добавить документ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

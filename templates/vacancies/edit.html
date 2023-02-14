@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Редактировать вакансию</div>
+                    <div class="subtitle">Дя того чтобы редактировать вакансию заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Название:</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Введите название..." value="{% if vacancy['title'] %}{{ vacancy['title'] }}{% endif %}">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                           <div class="mb-3">
+                                <label for="status" class="form-label">Статус:</label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="0" {% if vacancy['status'] == 0 %} selected {% endif %}>Не определён</option>
+                                    <option value="1" {% if vacancy['status'] == 1 %} selected {% endif %}>В работе</option>
+                                    <option value="2" {% if vacancy['status'] == 2 %} selected {% endif %}>Получен отказ</option>
+                                    <option value="3" {% if vacancy['status'] == 3 %} selected {% endif %}>Принято</option>
+                                </select>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="position" class="form-label">Позиция:</label>
+                        <input type="text" class="form-control" id="position" name="position" placeholder="Введите название должности..." value="{% if vacancy['position'] %}{{ vacancy['position'] }}{% endif %}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="url" class="form-label">Ссылка на вакансию:</label>
+                        <input type="text" class="form-control" id="url" name="url" placeholder="Введите ссылку..." value="{% if vacancy['url'] %}{{ vacancy['url'] }}{% endif %}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание:</label>
+                        <textarea type="text" class="form-control" id="description" name="description" rows="4" placeholder="Введите описание вакансии...">{% if vacancy['description'] %}{{ vacancy['description'] }}{% endif %}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="company" class="form-label">Компания:</label>
+                        <input type="text" class="form-control" id="company" name="company" placeholder="Введите название компании..." value="{% if vacancy['company'] %}{{ vacancy['company'] }}{% endif %}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Комментарий:</label>
+                        <textarea type="text" class="form-control" id="comment" name="comment" rows="4">{% if vacancy['comment'] %}{{ vacancy['comment'] }}{% endif %}</textarea>
+                        <div class="form-text">Дополнительные сведения касательно этой вакансии</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
