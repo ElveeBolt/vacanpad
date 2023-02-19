@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  app:
+    hostname: "app"
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: "postgres"
+
+  postgres:
+    hostname: "postgres"
+    image: "postgres:13.2"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
