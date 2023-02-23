@@ -407,7 +407,7 @@ def user_emails():
     return render_template('emails/index.html', context=context, emails=emails)
 
 
-@app.route('/user/emails/<email_id>', methods=['GET'])
+@app.route('/user/emails/<email_id>', methods=['GET', 'POST'])
 def user_email(email_id):
     database.init_db()
     context = {
@@ -417,7 +417,7 @@ def user_email(email_id):
 
     email = database.db_session.query(EmailCred).get(email_id)
 
-    sender = EmailWrapper(
+    email_wrapper = EmailWrapper(
         email=email.email,
         login=email.login,
         password=email.password,
@@ -428,7 +428,13 @@ def user_email(email_id):
         imap_server=email.imap_server,
         imap_port=email.imap_port
     )
-    emails = sender.get_emails([1, 2, 3, 4, 5], protocol='POP3')
+    emails = email_wrapper.get_emails([1, 2, 3, 4, 5], protocol='IMAP')
+
+    if request.method == 'POST':
+        subject = request.form.get('subject')
+        receiver_email = request.form.get('receiver_email')
+        message = request.form.get('message')
+        email_wrapper.send(receiver_email=receiver_email, subject=subject, message=message)
 
     return render_template('emails/email.html', context=context, email=email, emails=emails)
 

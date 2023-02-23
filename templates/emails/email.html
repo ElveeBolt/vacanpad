@@ -53,6 +53,29 @@
                 </table>
             </div>
         </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Отправка почты</div>
+                    <div class="subtitle">Для того чтобы отправить почту заполните форму ниже</div>
+                </div>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Тема письма:</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Введите тему письма...">
+                    </div>
+                    <div class="mb-3">
+                        <label for="receiver_email" class="form-label">Получатель:</label>
+                        <input type="text" class="form-control" id="receiver_email" name="receiver_email" placeholder="Введите адрес получателя...">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Сообщение:</label>
+                        <textarea class="form-control" id="message" name="message" rows="6" placeholder="Введите сообщение..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-envelope"></i>Отправить письмо</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal" id="modal-delete" tabindex="-1">
