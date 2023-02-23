@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for
 import database
 from datetime import datetime
 from models import Vacancy, Event, EmailCred, Template, Document
+from email_lib import EmailSender
 
 app = Flask(__name__)
 
@@ -59,7 +60,7 @@ def vacancy_add():
     return render_template('vacancies/add.html', context=context)
 
 
-@app.route('/vacancies/<vacancy_id>', methods=['GET'])
+@app.route('/vacancies/<vacancy_id>', methods=['GET', 'POST'])
 def vacancy(vacancy_id):
     database.init_db()
     context = {
@@ -69,8 +70,30 @@ def vacancy(vacancy_id):
 
     vacancy = database.db_session.query(Vacancy).get(vacancy_id)
     events = database.db_session.query(Event).filter_by(vacancy_id=vacancy_id).limit(5).all()
+    emails = database.db_session.query(EmailCred).filter_by(user_id=1).all()
 
-    return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events)
+    if request.method == 'POST':
+        email = database.db_session.query(EmailCred).get(request.form.get('email'))
+        subject = request.form.get('subject')
+        receiver_email = request.form.get('receiver_email')
+        message = request.form.get('message')
+        sender = EmailSender(
+            email=email.email,
+            login=email.login,
+            password=email.password,
+            smtp_server=email.smtp_server,
+            smtp_port=email.smtp_port,
+            pop3_server=email.pop3_server,
+            pop3_port=email.pop3_port,
+            imap_server=email.imap_server,
+            imap_port=email.imap_port,
+            subject=subject,
+            message=message,
+            receiver_email=receiver_email
+        )
+        sender.send()
+
+    return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails)
 
 
 @app.route('/vacancies/<vacancy_id>/edit', methods=['GET', 'POST'])
@@ -410,8 +433,12 @@ def user_emails_add():
             email=request.form.get('email'),
             login=request.form.get('login'),
             password=request.form.get('password'),
-            pop_server=request.form.get('pop_server'),
-            smtp_server=request.form.get('smtp_server')
+            smtp_server=request.form.get('smtp_server'),
+            smtp_port=request.form.get('smtp_port'),
+            pop3_server=request.form.get('pop3_server'),
+            pop3_port=request.form.get('pop3_port'),
+            imap_server=request.form.get('imap_server'),
+            imap_port=request.form.get('imap_port'),
         )
 
         database.db_session.add(email)
@@ -435,8 +462,12 @@ def user_email_edit(email_id):
             'email': request.form.get('email'),
             'login': request.form.get('login'),
             'password': request.form.get('password'),
-            'pop_server': request.form.get('pop_server'),
             'smtp_server': request.form.get('smtp_server'),
+            'smtp_port': request.form.get('smtp_port'),
+            'pop3_server': request.form.get('pop3_server'),
+            'pop3_port': request.form.get('pop3_port'),
+            'imap_server': request.form.get('imap_server'),
+            'imap_port': request.form.get('imap_port'),
         })
 
         database.db_session.commit()

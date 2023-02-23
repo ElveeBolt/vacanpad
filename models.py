@@ -92,16 +92,24 @@ class EmailCred(Base):
     email = Column(String(255), nullable=False)
     login = Column(String(255), nullable=False)
     password = Column(String(255), nullable=False)
-    pop_server = Column(Integer, nullable=False)
-    smtp_server = Column(Integer, nullable=False)
+    smtp_server = Column(String(255), nullable=True)
+    smtp_port = Column(Integer, nullable=True)
+    pop3_server = Column(String(255), nullable=True)
+    pop3_port = Column(Integer, nullable=True)
+    imap_server = Column(String(255), nullable=True)
+    imap_port = Column(Integer, nullable=True)
 
-    def __init__(self, user_id, email, login, password, pop_server, smtp_server):
+    def __init__(self, user_id, email, login, password, smtp_server, smtp_port, pop3_server, pop3_port, imap_server, imap_port):
         self.user_id = user_id
         self.email = email
         self.login = login
         self.password = password
-        self.pop_server = pop_server
         self.smtp_server = smtp_server
+        self.smtp_port = smtp_port
+        self.pop3_server = pop3_server
+        self.pop3_port = pop3_port
+        self.imap_server = imap_server
+        self.imap_port = imap_port
 
     def __repr__(self):
         return f'<EmailCred {self.email}>'

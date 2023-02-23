@@ -32,17 +32,48 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="pop_server" class="form-label">POP:</label>
-                                <input type="number" class="form-control" id="pop_server" name="pop_server" required="required" placeholder="Введите POP...">
+                                <label for="smtp_server" class="form-label">SMTP:</label>
+                                <input type="text" class="form-control" id="smtp_server" name="smtp_server" placeholder="Введите SMTP...">
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="smtp_server" class="form-label">SMTP:</label>
-                                <input type="number" class="form-control" id="smtp_server" name="smtp_server" required="required" placeholder="Введите SMTP...">
+                                <label for="smtp_port" class="form-label">SMTP Порт:</label>
+                                <input type="number" class="form-control" id="smtp_port" name="smtp_port" placeholder="Введите SMTP порт...">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="pop3_server" class="form-label">POP3:</label>
+                                <input type="text" class="form-control" id="pop3_server" name="pop3_server" placeholder="Введите POP3...">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="pop3_port" class="form-label">POP3 Порт:</label>
+                                <input type="number" class="form-control" id="pop3_port" name="pop3_port" placeholder="Введите POP3 порт...">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="imap_server" class="form-label">IMAP:</label>
+                                <input type="text" class="form-control" id="imap_server" name="imap_server" placeholder="Введите IMAP...">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="imap_port" class="form-label">IMAP Порт:</label>
+                                <input type="number" class="form-control" id="imap_port" name="imap_port" placeholder="Введите IMAP порт...">
                             </div>
                         </div>
                     </div>
@@ -60,7 +91,9 @@
                     информацией между почтовыми клиентами и почтовыми серверами.</div>
                 <p><em>SMTP</em> - это стандартный почтовый протокол, предназначенный для
                     исключительно обмена электронной почтой.</p>
-                <p class="mb-0"><em>POP3</em> - почтовый протокол, который позволяет принимать и хранить вашу электронную почту.</p>
+                <p class="mb-3"><em>POP3</em> - почтовый протокол, который позволяет принимать и хранить вашу электронную почту.</p>
+                <p class="mb-0"><em>IMAP</em> - почтовый протокол, который позволяет принимать и хранить вашу электронную почту.
+                    IMAP является более продвинутой версией POP3</p>
             </div>
         </div>
     </div>

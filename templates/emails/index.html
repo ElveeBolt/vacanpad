@@ -18,8 +18,9 @@
                         <tr>
                             <th>E-mail</th>
                             <th>Логин</th>
-                            <th>POP</th>
                             <th>SMTP</th>
+                            <th>POP3</th>
+                            <th>IMAP</th>
                             <th>Действие</th>
                         </tr>
                     </thead>
@@ -28,8 +29,9 @@
                         <tr>
                             <td>{{ email['email'] }}</td>
                             <td>{{ email['login'] }}</td>
-                            <td>{{ email['pop_server'] }}</td>
                             <td>{{ email['smtp_server'] }}</td>
+                            <td>{{ email['pop3_server'] }}</td>
+                            <td>{{ email['imap_server'] }}</td>
                             <td>
                                 <a href="{{ url_for('user_email_edit', email_id=email['id']) }}" class="btn"><i class="bi bi-pencil-square"></i></a>
                                 <a href="{{ url_for('user_email', email_id=email['id']) }}" class="btn"><i class="bi bi-file-earmark-text"></i></a>
