@@ -77,7 +77,7 @@ def vacancy(vacancy_id):
         subject = request.form.get('subject')
         receiver_email = request.form.get('receiver_email')
         message = request.form.get('message')
-        sender = EmailWrapper(
+        email_wrapper = EmailWrapper(
             email=email.email,
             login=email.login,
             password=email.password,
@@ -87,11 +87,8 @@ def vacancy(vacancy_id):
             pop3_port=email.pop3_port,
             imap_server=email.imap_server,
             imap_port=email.imap_port,
-            subject=subject,
-            message=message,
-            receiver_email=receiver_email
         )
-        sender.send()
+        email_wrapper.send(receiver_email=receiver_email, subject=subject, message=message)
 
     return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails)
 
