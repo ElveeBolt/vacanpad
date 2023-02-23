@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for
 import database
 from datetime import datetime
 from models import Vacancy, Event, EmailCred, Template, Document
-from email_lib import EmailSender
+from email_lib import EmailWrapper
 
 app = Flask(__name__)
 
@@ -77,7 +77,7 @@ def vacancy(vacancy_id):
         subject = request.form.get('subject')
         receiver_email = request.form.get('receiver_email')
         message = request.form.get('message')
-        sender = EmailSender(
+        sender = EmailWrapper(
             email=email.email,
             login=email.login,
             password=email.password,
@@ -417,7 +417,20 @@ def user_email(email_id):
 
     email = database.db_session.query(EmailCred).get(email_id)
 
-    return render_template('emails/email.html', context=context, email=email)
+    sender = EmailWrapper(
+        email=email.email,
+        login=email.login,
+        password=email.password,
+        smtp_server=email.smtp_server,
+        smtp_port=email.smtp_port,
+        pop3_server=email.pop3_server,
+        pop3_port=email.pop3_port,
+        imap_server=email.imap_server,
+        imap_port=email.imap_port
+    )
+    emails = sender.get_emails([1, 2, 3, 4, 5], protocol='POP3')
+
+    return render_template('emails/email.html', context=context, email=email, emails=emails)
 
 
 @app.route('/user/emails/add', methods=['GET', 'POST'])

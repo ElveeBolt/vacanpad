@@ -28,6 +28,30 @@
                     <li><span class="left">IMAP порт:</span><span class="right">{{ email['imap_port'] }}</span></li>
                 </ul>
             </div>
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Полученные письма</div>
+                    <div class="subtitle">Список новых писем на текущем ящике</div>
+                </div>
+                <table id="table-emails" class="display mb-3">
+                    <thead>
+                        <tr>
+                            <th>Отправитель</th>
+                            <th>Тема письма</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for email in emails %}
+                        <tr>
+                            <td>{{ email['from'] }}</td>
+                            <td>{{ email['subject'] }}</td>
+                            <td>{{ email['date'] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -50,4 +74,15 @@
     </div>
   </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script>
+  $(document).ready( function () {
+    $('#table-emails').DataTable({
+        searching: false,
+        paging: false,
+        info: false
+    });
+});
+</script>
 {% endblock %}
