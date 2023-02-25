@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template, redirect, url_for
 import database
+from mongodb import MongoDB
 from datetime import datetime
 from models import Vacancy, Event, EmailCred, Template, Document
 from email_lib import EmailWrapper
-
 app = Flask(__name__)
 
 
@@ -55,6 +55,17 @@ def vacancy_add():
         database.db_session.add(vacancy)
         database.db_session.commit()
 
+        contact = {
+            'vacancy_id': vacancy.id,
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'phone': request.form.get('phone'),
+            'website': request.form.get('website')
+        }
+
+        mongo = MongoDB()
+        mongo.insert_contact(contact)
+
         return redirect(url_for('vacancy_add'))
 
     return render_template('vacancies/add.html', context=context)
@@ -63,6 +74,7 @@ def vacancy_add():
 @app.route('/vacancies/<vacancy_id>', methods=['GET', 'POST'])
 def vacancy(vacancy_id):
     database.init_db()
+    mongo = MongoDB()
     context = {
         'title': 'Детали вакансии',
         'subtitle': 'Детальная информация касательно вакансии',
@@ -71,6 +83,7 @@ def vacancy(vacancy_id):
     vacancy = database.db_session.query(Vacancy).get(vacancy_id)
     events = database.db_session.query(Event).filter_by(vacancy_id=vacancy_id).limit(5).all()
     emails = database.db_session.query(EmailCred).filter_by(user_id=1).all()
+    contacts = mongo.get_contacts_by_vacancy_id(vacancy_id)
 
     if request.method == 'POST':
         email = database.db_session.query(EmailCred).get(request.form.get('email'))
@@ -90,7 +103,7 @@ def vacancy(vacancy_id):
         )
         email_wrapper.send(receiver_email=receiver_email, subject=subject, message=message)
 
-    return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails)
+    return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails, contacts=contacts)
 
 
 @app.route('/vacancies/<vacancy_id>/edit', methods=['GET', 'POST'])
@@ -214,6 +227,18 @@ def vacancy_event_delete(event_id):
         database.db_session.commit()
 
     return redirect(url_for('vacancies'))
+
+
+@app.route('/vacancies/<vacancy_id>/contacts', methods=['GET'])
+def vacancy_contacts(vacancy_id):
+    mongo = MongoDB()
+    context = {
+        'title': 'Контакты вакансии',
+        'subtitle': 'Список контактов связанных с вакансией',
+    }
+    contacts = mongo.get_contacts_by_vacancy_id(vacancy_id)
+
+    return render_template('contacts/index.html', context=context, contacts=contacts)
 
 
 @app.route('/vacancies/<vacancy_id>/history', methods=['GET'])
@@ -503,6 +528,75 @@ def user_email_delete(email_id):
         database.db_session.commit()
 
     return redirect(url_for('user_emails'))
+
+
+@app.route('/user/contacts/', methods=['GET'])
+def user_contacts():
+    mongo = MongoDB()
+    context = {
+        'title': 'Мои контакты',
+        'subtitle': 'Список моих контактов',
+    }
+    contacts = mongo.get_contacts()
+
+    return render_template('contacts/index.html', context=context, contacts=contacts)
+
+
+@app.route('/user/contacts/<contact_id>', methods=['GET', 'POST'])
+def user_contact_edit(contact_id):
+    mongo = MongoDB()
+    context = {
+        'title': 'Редактирование контакта',
+        'subtitle': 'Страница редактирования контакта',
+    }
+    contact = mongo.get_contact_by_id(contact_id)
+
+    if request.method == 'POST':
+        contact = {
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'phone': request.form.get('phone'),
+            'website': request.form.get('website')
+        }
+        mongo.update_contact(contact_id, contact)
+
+        return redirect(url_for('user_contacts'))
+
+    return render_template('contacts/edit.html', context=context, contact=contact)
+
+
+@app.route('/user/contacts/add/<vacancy_id>', methods=['GET', 'POST'])
+def user_contacts_add(vacancy_id):
+    context = {
+        'title': 'Добавление контакта',
+        'subtitle': 'Страница добавления контакта',
+    }
+
+    if request.method == 'POST':
+        mongo = MongoDB()
+
+        contact = {
+            'vacancy_id': int(vacancy_id),
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'phone': request.form.get('phone'),
+            'website': request.form.get('website')
+        }
+
+        mongo.insert_contact(contact)
+
+        return redirect(url_for('vacancy', vacancy_id=vacancy_id))
+
+    return render_template('contacts/add.html', context=context)
+
+
+@app.route('/user/contacts/<contact_id>/delete', methods=['GET', 'POST'])
+def user_contact_delete(contact_id):
+    if request.method == 'POST':
+        mongo = MongoDB()
+        mongo.delete_contact(contact_id)
+
+    return redirect(url_for('user_contacts'))
 
 
 @app.route('/user/calendar', methods=['GET'])

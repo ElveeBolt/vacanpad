@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>{{ context.title }}</h1>
+        <div class="subtitle">{{ context.subtitle }}</div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-heading">
+                    <div class="title">Контакты</div>
+                    <div class="subtitle">Список ранее добавленых контактов</div>
+                </div>
+                <table id="table-contacts" class="display mb-3">
+                    <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>E-mail</th>
+                            <th>Телефон</th>
+                            <th>Веб-сайт</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for contact in contacts %}
+                        <tr>
+                            <td>{{ contact.name }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.phone }}</td>
+                            <td><a href="{{ contact.website }}">Перейти на сайт</a></td>
+                            <td>
+                                <a href="{{ url_for('user_contact_edit', contact_id=contact._id) }}" class="btn"><i class="bi bi-pencil-square"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  $(document).ready( function () {
+    $('#table-contacts').DataTable({
+        searching: false,
+        paging: false,
+        info: false
+    });
+});
+</script>
+{% endblock %}

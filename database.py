@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
 engine = create_engine(f'postgresql://postgres:password@{DB_HOST}:5432/postgres')
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
