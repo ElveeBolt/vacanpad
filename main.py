@@ -4,6 +4,7 @@ from mongodb import MongoDB
 from datetime import datetime
 from models import Vacancy, Event, EmailCred, Template, Document
 from email_lib import EmailWrapper
+from celery_worker import send_email
 app = Flask(__name__)
 
 
@@ -86,22 +87,10 @@ def vacancy(vacancy_id):
     contacts = mongo.get_contacts_by_vacancy_id(vacancy_id)
 
     if request.method == 'POST':
-        email = database.db_session.query(EmailCred).get(request.form.get('email'))
         subject = request.form.get('subject')
         receiver_email = request.form.get('receiver_email')
         message = request.form.get('message')
-        email_wrapper = EmailWrapper(
-            email=email.email,
-            login=email.login,
-            password=email.password,
-            smtp_server=email.smtp_server,
-            smtp_port=email.smtp_port,
-            pop3_server=email.pop3_server,
-            pop3_port=email.pop3_port,
-            imap_server=email.imap_server,
-            imap_port=email.imap_port,
-        )
-        email_wrapper.send(receiver_email=receiver_email, subject=subject, message=message)
+        send_email.apply_async(args=[request.form.get('email'), receiver_email, subject, message])
 
     return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails, contacts=contacts)
 

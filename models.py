@@ -111,6 +111,19 @@ class EmailCred(Base):
         self.imap_server = imap_server
         self.imap_port = imap_port
 
+    def to_dict(self):
+        return {
+            'email': self.email,
+            'login': self.login,
+            'password': self.password,
+            'smtp_server': self.smtp_server,
+            'smtp_port': self.smtp_port,
+            'pop3_server': self.pop3_server,
+            'pop3_port': self.pop3_port,
+            'imap_server': self.imap_server,
+            'imap_port': self.imap_port,
+        }
+
     def __repr__(self):
         return f'<EmailCred {self.email}>'
 

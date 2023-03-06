@@ -3,11 +3,21 @@ services:
   app:
     hostname: "app"
     build: .
+    command: python main.py
     ports:
       - "5000:5000"
     environment:
       POSTGRES_HOST: "postgres"
       MONGO_HOST: "mongodb"
+      RABBITMQ_HOST: "rabbitmq"
+
+  celery_worker:
+    hostname: "celery_worker"
+    build: .
+    command: celery -A celery_worker worker --loglevel=INFO --purge --pool=solo
+    environment:
+      POSTGRES_HOST: "postgres"
+      RABBITMQ_HOST: "rabbitmq"
 
   postgres:
     hostname: "postgres"
@@ -38,3 +48,11 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: "root"
       ME_CONFIG_MONGODB_ADMINPASSWORD: "example"
       ME_CONFIG_MONGODB_URL: "mongodb://root:example@mongodb:27017/"
+
+  rabbitmq:
+    hostname: "rabbitmq"
+    image: "rabbitmq:3-management"
+    restart: "always"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
