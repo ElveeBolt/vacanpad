@@ -436,7 +436,7 @@ def user_templates():
         'subtitle': 'Список шаблонов писем',
     }
 
-    templates = database.db_session.query(Template).all()
+    templates = database.db_session.query(Template).filter_by(user_id=session.get('user_id')).all()
 
     return render_template('templates/index.html', context=context, templates=templates)
 
@@ -465,7 +465,7 @@ def user_templates_add():
     }
     if request.method == 'POST':
         template = Template(
-            user_id=1,
+            user_id=session.get('user_id'),
             title=request.form.get('title'),
             content=request.form.get('content')
         )
