@@ -44,7 +44,7 @@ def vacancies():
         'title': 'Вакансии',
         'subtitle': 'Список добавленых вакансий',
     }
-    vacancies = database.db_session.query(Vacancy).all()
+    vacancies = database.db_session.query(Vacancy).filter_by(user_id=session.get('user_id')).all()
 
     return render_template('vacancies/index.html', context=context, vacancies=vacancies)
 
