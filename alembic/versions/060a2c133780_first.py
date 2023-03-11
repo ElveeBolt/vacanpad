@@ -43,6 +43,7 @@ def upgrade() -> None:
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('pop_server', sa.Integer(), nullable=False),
     sa.Column('smtp_server', sa.Integer(), nullable=False),
+    sa.Column('port', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
