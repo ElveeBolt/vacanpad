@@ -22,7 +22,8 @@ def login_required(func):
 
 
 # Home Page
-@app.route('/')
+@app.route('/', methods=['GET'], endpoint='index')
+@login_required
 def index():
     database.init_db()
     statistic = {
@@ -35,7 +36,8 @@ def index():
 
 
 # Vacancies
-@app.route('/vacancies', methods=['GET'])
+@app.route('/vacancies', methods=['GET'], endpoint='vacancies')
+@login_required
 def vacancies():
     database.init_db()
     context = {
@@ -47,7 +49,8 @@ def vacancies():
     return render_template('vacancies/index.html', context=context, vacancies=vacancies)
 
 
-@app.route('/vacancies/add', methods=['GET', 'POST'])
+@app.route('/vacancies/add', methods=['GET', 'POST'], endpoint='vacancy_add')
+@login_required
 def vacancy_add():
     database.init_db()
     context = {
@@ -87,7 +90,8 @@ def vacancy_add():
     return render_template('vacancies/add.html', context=context)
 
 
-@app.route('/vacancies/<vacancy_id>', methods=['GET', 'POST'])
+@app.route('/vacancies/<vacancy_id>', methods=['GET', 'POST'], endpoint='vacancy')
+@login_required
 def vacancy(vacancy_id):
     database.init_db()
     mongo = MongoDB()
@@ -111,7 +115,8 @@ def vacancy(vacancy_id):
                            contacts=contacts)
 
 
-@app.route('/vacancies/<vacancy_id>/edit', methods=['GET', 'POST'])
+@app.route('/vacancies/<vacancy_id>/edit', methods=['GET', 'POST'], endpoint='vacancy_edit')
+@login_required
 def vacancy_edit(vacancy_id):
     database.init_db()
     context = {
@@ -138,7 +143,8 @@ def vacancy_edit(vacancy_id):
     return render_template('vacancies/edit.html', context=context, vacancy=vacancy)
 
 
-@app.route('/vacancies/<vacancy_id>/delete', methods=['GET', 'POST'])
+@app.route('/vacancies/<vacancy_id>/delete', methods=['GET', 'POST'], endpoint='vacancy_delete')
+@login_required
 def vacancy_delete(vacancy_id):
     if request.method == 'POST':
         database.init_db()
@@ -148,7 +154,8 @@ def vacancy_delete(vacancy_id):
     return redirect(url_for('vacancies'))
 
 
-@app.route('/vacancies/<vacancy_id>/events', methods=['GET'])
+@app.route('/vacancies/<vacancy_id>/events', methods=['GET'], endpoint='vacancy_events')
+@login_required
 def vacancy_events(vacancy_id):
     database.init_db()
     context = {
@@ -162,7 +169,8 @@ def vacancy_events(vacancy_id):
     return render_template('events/index.html', context=context, events=events, vacancy=vacancy)
 
 
-@app.route('/events/<event_id>', methods=['GET'])
+@app.route('/events/<event_id>', methods=['GET'], endpoint='vacancy_event')
+@login_required
 def vacancy_event(event_id):
     database.init_db()
     context = {
@@ -175,7 +183,8 @@ def vacancy_event(event_id):
     return render_template('events/event.html', context=context, event=event)
 
 
-@app.route('/vacancies/<vacancy_id>/events/add', methods=['GET', 'POST'])
+@app.route('/vacancies/<vacancy_id>/events/add', methods=['GET', 'POST'], endpoint='vacancy_event_add')
+@login_required
 def vacancy_event_add(vacancy_id):
     database.init_db()
     context = {
@@ -199,7 +208,8 @@ def vacancy_event_add(vacancy_id):
     return render_template('events/add.html', context=context, vacancy_id=vacancy_id)
 
 
-@app.route('/events/<event_id>/edit', methods=['GET', 'POST'])
+@app.route('/events/<event_id>/edit', methods=['GET', 'POST'], endpoint='vacancy_event_edit')
+@login_required
 def vacancy_event_edit(event_id):
     database.init_db()
     context = {
@@ -224,7 +234,8 @@ def vacancy_event_edit(event_id):
     return render_template('events/edit.html', context=context, event=event)
 
 
-@app.route('/events/<event_id>/delete', methods=['GET', 'POST'])
+@app.route('/events/<event_id>/delete', methods=['GET', 'POST'], endpoint='vanvacy_event_delete')
+@login_required
 def vacancy_event_delete(event_id):
     if request.method == 'POST':
         database.init_db()
@@ -234,7 +245,8 @@ def vacancy_event_delete(event_id):
     return redirect(url_for('vacancies'))
 
 
-@app.route('/vacancies/<vacancy_id>/contacts', methods=['GET'])
+@app.route('/vacancies/<vacancy_id>/contacts', methods=['GET'], endpoint='vacancy_contacts')
+@login_required
 def vacancy_contacts(vacancy_id):
     mongo = MongoDB()
     context = {
@@ -246,18 +258,19 @@ def vacancy_contacts(vacancy_id):
     return render_template('contacts/index.html', context=context, contacts=contacts)
 
 
-@app.route('/vacancies/<vacancy_id>/history', methods=['GET'])
+@app.route('/vacancies/<vacancy_id>/history', methods=['GET'], endpoint='vacancy_history')
+@login_required
 def vacancy_history():
     return 'Vacancy history'
 
 
 # User
-@app.route('/user', methods=['GET'])
+@app.route('/user', methods=['GET'], endpoint='user')
 def user():
     return 'User'
 
 
-@app.route('/user/login', methods=['GET', 'POST'])
+@app.route('/user/login', methods=['GET', 'POST'], endpoint='user_login')
 def user_login():
     context = {
         'title': 'Авторизация',
@@ -286,7 +299,7 @@ def user_login():
     return render_template('users/login.html', context=context)
 
 
-@app.route('/user/signup', methods=['GET', 'POST'])
+@app.route('/user/signup', methods=['GET', 'POST'], endpoint='user_signup')
 def user_signup():
     context = {
         'title': 'Регистрация',
@@ -317,13 +330,14 @@ def user_signup():
     return render_template('users/signup.html', context=context)
 
 
-@app.route('/user/logout', methods=['GET'])
+@app.route('/user/logout', methods=['GET'], endpoint='user_logout')
 def user_logout():
     session.clear()
     return redirect(url_for('index'))
 
 
-@app.route('/user/documents', methods=['GET'])
+@app.route('/user/documents', methods=['GET'], endpoint='user_documents')
+@login_required
 def user_documents():
     database.init_db()
     context = {
@@ -336,7 +350,8 @@ def user_documents():
     return render_template('documents/index.html', context=context, documents=documents)
 
 
-@app.route('/user/documents/<document_id>', methods=['GET'])
+@app.route('/user/documents/<document_id>', methods=['GET'], endpoint='user_document')
+@login_required
 def user_document(document_id):
     database.init_db()
     context = {
@@ -349,7 +364,8 @@ def user_document(document_id):
     return render_template('documents/document.html', context=context, document=document)
 
 
-@app.route('/user/documents/add', methods=['GET', 'POST'])
+@app.route('/user/documents/add', methods=['GET', 'POST'], endpoint='user_documents_add')
+@login_required
 def user_documents_add():
     database.init_db()
     context = {
@@ -372,7 +388,8 @@ def user_documents_add():
     return render_template('documents/add.html', context=context)
 
 
-@app.route('/user/documents/<document_id>/edit', methods=['GET', 'POST'])
+@app.route('/user/documents/<document_id>/edit', methods=['GET', 'POST'], endpoint='user_document_edit')
+@login_required
 def user_document_edit(document_id):
     database.init_db()
     context = {
@@ -396,7 +413,8 @@ def user_document_edit(document_id):
     return render_template('documents/edit.html', context=context, document=document)
 
 
-@app.route('/user/documents/<document_id>/delete', methods=['GET', 'POST'])
+@app.route('/user/documents/<document_id>/delete', methods=['GET', 'POST'], endpoint='user_document_delete')
+@login_required
 def user_document_delete(document_id):
     if request.method == 'POST':
         database.init_db()
@@ -406,7 +424,8 @@ def user_document_delete(document_id):
     return redirect(url_for('user_documents'))
 
 
-@app.route('/user/templates', methods=['GET'])
+@app.route('/user/templates', methods=['GET'], endpoint='user_templates')
+@login_required
 def user_templates():
     database.init_db()
     context = {
@@ -419,7 +438,8 @@ def user_templates():
     return render_template('templates/index.html', context=context, templates=templates)
 
 
-@app.route('/user/templates/<template_id>', methods=['GET'])
+@app.route('/user/templates/<template_id>', methods=['GET'], endpoint='user_template')
+@login_required
 def user_template(template_id):
     database.init_db()
     context = {
@@ -432,7 +452,8 @@ def user_template(template_id):
     return render_template('templates/document.html', context=context, template=template)
 
 
-@app.route('/user/templates/add', methods=['GET', 'POST'])
+@app.route('/user/templates/add', methods=['GET', 'POST'], endpoint='user_templates_add')
+@login_required
 def user_templates_add():
     database.init_db()
     context = {
@@ -454,7 +475,8 @@ def user_templates_add():
     return render_template('templates/add.html', context=context)
 
 
-@app.route('/user/templates/<template_id>/edit', methods=['GET', 'POST'])
+@app.route('/user/templates/<template_id>/edit', methods=['GET', 'POST'], endpoint='user_template_edit')
+@login_required
 def user_template_edit(template_id):
     database.init_db()
     context = {
@@ -477,7 +499,8 @@ def user_template_edit(template_id):
     return render_template('templates/edit.html', context=context, template=template)
 
 
-@app.route('/user/templates/<template_id>/delete', methods=['GET', 'POST'])
+@app.route('/user/templates/<template_id>/delete', methods=['GET', 'POST'], endpoint='user_template_delete')
+@login_required
 def user_template_delete(template_id):
     if request.method == 'POST':
         database.init_db()
@@ -487,7 +510,8 @@ def user_template_delete(template_id):
     return redirect(url_for('user_templates'))
 
 
-@app.route('/user/emails', methods=['GET'])
+@app.route('/user/emails', methods=['GET'], endpoint='user_emails')
+@login_required
 def user_emails():
     database.init_db()
     context = {
@@ -500,7 +524,8 @@ def user_emails():
     return render_template('emails/index.html', context=context, emails=emails)
 
 
-@app.route('/user/emails/<email_id>', methods=['GET', 'POST'])
+@app.route('/user/emails/<email_id>', methods=['GET', 'POST'], endpoint='user_email')
+@login_required
 def user_email(email_id):
     database.init_db()
     context = {
@@ -532,7 +557,8 @@ def user_email(email_id):
     return render_template('emails/email.html', context=context, email=email, emails=emails)
 
 
-@app.route('/user/emails/add', methods=['GET', 'POST'])
+@app.route('/user/emails/add', methods=['GET', 'POST'], endpoint='user_emails_add')
+@login_required
 def user_emails_add():
     database.init_db()
     context = {
@@ -561,7 +587,8 @@ def user_emails_add():
     return render_template('emails/add.html', context=context)
 
 
-@app.route('/user/emails/<email_id>/edit', methods=['GET', 'POST'])
+@app.route('/user/emails/<email_id>/edit', methods=['GET', 'POST'], endpoint='user_email_edit')
+@login_required
 def user_email_edit(email_id):
     database.init_db()
     context = {
@@ -591,7 +618,8 @@ def user_email_edit(email_id):
     return render_template('emails/edit.html', context=context, email=email)
 
 
-@app.route('/user/emails/<email_id>/delete', methods=['GET', 'POST'])
+@app.route('/user/emails/<email_id>/delete', methods=['GET', 'POST'], endpoint='user_email_delete')
+@login_required
 def user_email_delete(email_id):
     if request.method == 'POST':
         database.init_db()
@@ -601,7 +629,8 @@ def user_email_delete(email_id):
     return redirect(url_for('user_emails'))
 
 
-@app.route('/user/contacts/', methods=['GET'])
+@app.route('/user/contacts/', methods=['GET'], endpoint='user_contacts')
+@login_required
 def user_contacts():
     mongo = MongoDB()
     context = {
@@ -613,7 +642,8 @@ def user_contacts():
     return render_template('contacts/index.html', context=context, contacts=contacts)
 
 
-@app.route('/user/contacts/<contact_id>', methods=['GET', 'POST'])
+@app.route('/user/contacts/<contact_id>', methods=['GET', 'POST'], endpoint='user_contact_edit')
+@login_required
 def user_contact_edit(contact_id):
     mongo = MongoDB()
     context = {
@@ -636,7 +666,8 @@ def user_contact_edit(contact_id):
     return render_template('contacts/edit.html', context=context, contact=contact)
 
 
-@app.route('/user/contacts/add/<vacancy_id>', methods=['GET', 'POST'])
+@app.route('/user/contacts/add/<vacancy_id>', methods=['GET', 'POST'], endpoint='user_contacts_add')
+@login_required
 def user_contacts_add(vacancy_id):
     context = {
         'title': 'Добавление контакта',
@@ -661,7 +692,8 @@ def user_contacts_add(vacancy_id):
     return render_template('contacts/add.html', context=context)
 
 
-@app.route('/user/contacts/<contact_id>/delete', methods=['GET', 'POST'])
+@app.route('/user/contacts/<contact_id>/delete', methods=['GET', 'POST'], endpoint='user_contact_delete')
+@login_required
 def user_contact_delete(contact_id):
     if request.method == 'POST':
         mongo = MongoDB()
@@ -670,7 +702,8 @@ def user_contact_delete(contact_id):
     return redirect(url_for('user_contacts'))
 
 
-@app.route('/user/calendar', methods=['GET'])
+@app.route('/user/calendar', methods=['GET'], endpoint='calendar')
+@login_required
 def user_calendar():
     return 'User calendar'
 
