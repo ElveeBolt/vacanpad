@@ -348,7 +348,7 @@ def user_documents():
         'subtitle': 'Список документов',
     }
 
-    documents = database.db_session.query(Document).all()
+    documents = database.db_session.query(Document).filter_by(user_id=session.get('user_id')).all()
 
     return render_template('documents/index.html', context=context, documents=documents)
 
@@ -377,7 +377,7 @@ def user_documents_add():
     }
     if request.method == 'POST':
         document = Document(
-            user_id=1,
+            user_id=session.get('user_id'),
             title=request.form.get('title'),
             description=request.form.get('description'),
             content=request.form.get('content')
