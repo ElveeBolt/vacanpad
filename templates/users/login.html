@@ -19,6 +19,15 @@
                         <label for="password" class="form-label">Пароль:</label>
                         <input type="password" class="form-control" placeholder="Введите пароль..." id="password" name="password" required="required">
                     </div>
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <ul class="text-danger text-center list-unstyled">
+                        {% for message in messages %}
+                          <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                      {% endif %}
+                    {% endwith %}
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Авторизация</button>
                     </div>

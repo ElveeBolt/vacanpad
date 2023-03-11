@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, flash
 import database
 from mongodb import MongoDB
 from datetime import datetime
@@ -274,8 +274,10 @@ def user_login():
 
         user = database.db_session.query(User).filter(User.login == username).first()
         if user is None:
+            flash('Пользователь не найден')
             return redirect(url_for('user_login'))
         if user.password != password:
+            flash('Вы ввели неверный пароль. Пожалуйста, повторите попытку ещё раз.')
             return redirect(url_for('user_login'))
 
         session['user_id'] = user.id
