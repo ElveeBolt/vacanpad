@@ -72,6 +72,18 @@ em {
     color: #2269f5;
 }
 
+.mini-logo{
+    background: #e7ecf8;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 28px;
+}
+
 .card{
     background: #fff;
     border-radius: 10px;

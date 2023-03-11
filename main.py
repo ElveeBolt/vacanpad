@@ -1,11 +1,24 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, session
 import database
 from mongodb import MongoDB
 from datetime import datetime
-from models import Vacancy, Event, EmailCred, Template, Document
+from models import Vacancy, Event, EmailCred, Template, Document, User
 from email_lib import EmailWrapper
 from celery_worker import send_email
+
 app = Flask(__name__)
+
+app.secret_key = 'super secret key'
+
+
+def login_required(func):
+    def wrap(*args, **kwargs):
+        if session.get('user_id') is not None:
+            return func(*args, **kwargs)
+        else:
+            return redirect(url_for('user_login'))
+
+    return wrap
 
 
 # Home Page
@@ -16,7 +29,9 @@ def index():
         'vacancies': database.db_session.query(Vacancy).count(),
         'events': database.db_session.query(Event).count()
     }
-    return render_template('index.html', statistic=statistic)
+
+    current_user = session.get('user_name')
+    return render_template('index.html', statistic=statistic, current_user=current_user)
 
 
 # Vacancies
@@ -92,7 +107,8 @@ def vacancy(vacancy_id):
         message = request.form.get('message')
         send_email.apply_async(args=[request.form.get('email'), receiver_email, subject, message])
 
-    return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails, contacts=contacts)
+    return render_template('vacancies/vacancy.html', context=context, vacancy=vacancy, events=events, emails=emails,
+                           contacts=contacts)
 
 
 @app.route('/vacancies/<vacancy_id>/edit', methods=['GET', 'POST'])
@@ -239,6 +255,70 @@ def vacancy_history():
 @app.route('/user', methods=['GET'])
 def user():
     return 'User'
+
+
+@app.route('/user/login', methods=['GET', 'POST'])
+def user_login():
+    context = {
+        'title': 'Авторизация',
+        'subtitle': 'Для того чтобы начать работу с VacanPad выполните авторизацию',
+    }
+
+    if request.method == 'POST':
+        database.init_db()
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username == '' or password == '':
+            return redirect(url_for('index'))
+
+        user = database.db_session.query(User).filter(User.login == username).first()
+        if user is None:
+            return redirect(url_for('user_login'))
+        if user.password != password:
+            return redirect(url_for('user_login'))
+
+        session['user_id'] = user.id
+        session['user_name'] = user.name
+
+    return render_template('users/login.html', context=context)
+
+
+@app.route('/user/signup', methods=['GET', 'POST'])
+def user_signup():
+    context = {
+        'title': 'Регистрация',
+        'subtitle': 'Для того, чтобы зарегистрировать аккаунт, заполните форму ниже',
+    }
+
+    if request.method == 'POST':
+        database.init_db()
+        name = request.form.get('name')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        password_repeat = request.form.get('password_repeat')
+
+        if password != password_repeat:
+            return render_template('users/signup.html', context=context)
+
+        user = User(
+            name=name,
+            login=username,
+            password=password
+        )
+
+        database.db_session.add(user)
+        database.db_session.commit()
+
+        return redirect(url_for('user_login'))
+
+    return render_template('users/signup.html', context=context)
+
+
+@app.route('/user/logout', methods=['GET'])
+def user_logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 
 @app.route('/user/documents', methods=['GET'])
@@ -445,7 +525,7 @@ def user_email(email_id):
         subject = request.form.get('subject')
         receiver_email = request.form.get('receiver_email')
         message = request.form.get('message')
-        email_wrapper.send(receiver_email=receiver_email, subject=subject, message=message)
+        send_email.apply_async(args=[request.form.get('email'), receiver_email, subject, message])
 
     return render_template('emails/email.html', context=context, email=email, emails=emails)
 
