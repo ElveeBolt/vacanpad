@@ -52,14 +52,16 @@ class Event(Base):
     __tablename__ = 'events'
     id = Column(Integer, primary_key=True)
     vacancy_id = Column(Integer, ForeignKey('vacancies.id'))
+    user_id = Column(Integer, ForeignKey('users.id'))
     title = Column(String(255), nullable=False)
     description = Column(Text)
     due_to_date = Column(DateTime, nullable=False)
     status = Column(Integer, nullable=False)
     date_publish = Column(DateTime, nullable=False, default=datetime.now())
 
-    def __init__(self, vacancy_id, title, description, due_to_date, status):
+    def __init__(self, vacancy_id, user_id, title, description, due_to_date, status):
         self.vacancy_id = vacancy_id
+        self.user_id = user_id
         self.title = title
         self.description = description
         self.due_to_date = datetime.strptime(due_to_date.replace('T', ' '), '%Y-%m-%d %H:%M')

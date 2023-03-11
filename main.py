@@ -27,8 +27,8 @@ def login_required(func):
 def index():
     database.init_db()
     statistic = {
-        'vacancies': database.db_session.query(Vacancy).count(),
-        'events': database.db_session.query(Event).count()
+        'vacancies': database.db_session.query(Vacancy).filter_by(user_id=session.get('user_id')).count(),
+        'events': database.db_session.query(Event).filter_by(user_id=session.get('user_id')).count()
     }
 
     current_user = session.get('user_name')
@@ -197,6 +197,7 @@ def vacancy_event_add(vacancy_id):
             title=request.form.get('title'),
             description=request.form.get('description'),
             vacancy_id=vacancy_id,
+            user_id=session.get('user_id'),
             due_to_date=request.form.get('due_to_date'),
             status=request.form.get('status')
         )
