@@ -2,20 +2,40 @@
 
 {% block content %}
 <div class="container">
-    {{ current_user }}
+
     <div class="row">
-        <div class="col-3">
-            <div class="card card-widget">
-                <div class="icon"><i class="bi bi-briefcase"></i></div>
-                <div class="count">{{ statistic['vacancies'] }}</div>
-                <div class="title text-muted">Всего вакансий</div>
+        <div class="col-6">
+            <div class="card welcome-widget">
+                <div class="row">
+                    <div class="col-5">
+                        <img src="{{url_for('static', filename='img/tasks_image.svg')}}" style="width:100%;"/>
+                    </div>
+                    <div class="col-7">
+                        <h2>Привет, {{ current_user }}!</h2>
+                        <div class="text-muted mb-3">Сегодня замечательный день для того, чтобы немного поработать!</div>
+                        <div class="text-muted mb-3">Посмотри ранее добавленные вакансии или добавь новую.</div>
+                        <div class="">
+                            <a href="{{ url_for('vacancy_add') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i>Добавить вакансию</a>
+                            <a href="{{ url_for('vacancies') }}" class="btn"><i class="bi bi-briefcase"></i>Мои вакансии</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-3">
-            <div class="card card-widget">
-                <div class="icon"><i class="bi bi-calendar-event"></i></div>
-                <div class="count">{{ statistic['events'] }}</div>
-                <div class="title text-muted">Всего событий</div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="card card-widget">
+                        <div class="icon"><i class="bi bi-briefcase"></i></div>
+                        <div class="count">{{ statistic['vacancies'] }}</div>
+                        <div class="title text-muted">Всего вакансий</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card card-widget">
+                        <div class="icon"><i class="bi bi-calendar-event"></i></div>
+                        <div class="count">{{ statistic['events'] }}</div>
+                        <div class="title text-muted">Всего событий</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
