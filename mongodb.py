@@ -10,7 +10,7 @@ class MongoDB:
         self._client = pymongo.MongoClient(f'mongodb://root:example@{DB_HOST}:27017/')
         self._database = self._client['vacanpad']
 
-    def get_contacts(self) -> list:
+    def get_contacts(self, user_id) -> list:
         """
         Get all contacts
 
@@ -18,7 +18,7 @@ class MongoDB:
         """
         collection = self._database['contacts']
 
-        return list(collection.find())
+        return list(collection.find({'user_id': int(user_id)}))
 
     def get_contacts_by_vacancy_id(self, vacancy_id) -> list:
         """

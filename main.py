@@ -75,6 +75,7 @@ def vacancy_add():
         database.db_session.commit()
 
         contact = {
+            'user_id': session.get('user_id'),
             'vacancy_id': vacancy.id,
             'name': request.form.get('name'),
             'email': request.form.get('email'),
@@ -639,7 +640,7 @@ def user_contacts():
         'title': 'Мои контакты',
         'subtitle': 'Список моих контактов',
     }
-    contacts = mongo.get_contacts()
+    contacts = mongo.get_contacts(user_id=session.get('user_id'))
 
     return render_template('contacts/index.html', context=context, contacts=contacts)
 
@@ -680,6 +681,7 @@ def user_contacts_add(vacancy_id):
         mongo = MongoDB()
 
         contact = {
+            'user_id': session.get('user_id'),
             'vacancy_id': int(vacancy_id),
             'name': request.form.get('name'),
             'email': request.form.get('email'),
