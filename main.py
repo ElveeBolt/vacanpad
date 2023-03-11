@@ -296,6 +296,8 @@ def user_login():
         session['user_id'] = user.id
         session['user_name'] = user.name
 
+        return redirect(url_for('index'))
+
     return render_template('users/login.html', context=context)
 
 
